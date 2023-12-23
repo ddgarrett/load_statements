@@ -3,10 +3,8 @@
 
     Read a CSV line by line, splitting it by commas.
 
-    Ignore any blank lines
-    If line[0] == 'Account Type' process account summary.
-    Else if line[0] == 'Symbol/CUSIP' process account details.
-    Else ignore the line.
+    Call stock or transaction loading functions
+    based on unique headers for downloaded csv files.
 
 '''
 from __future__ import annotations
@@ -32,7 +30,7 @@ def test_line(tst:str,line:list[str]) -> bool:
 def line_func(line:list[str]) -> callable:
     '''
         Given a parsed CSV line, return the function
-        which processes statements after the line
+        which processes statements after the header line
     '''
     for key in gv.func_lookup:
          if test_line(key,line):
@@ -40,9 +38,9 @@ def line_func(line:list[str]) -> callable:
          
     return None
 
-
 def main():
 
+    # initialize stock and transaction loading modules
     ldstk.init()
     ldtxn.init()
 
@@ -54,13 +52,15 @@ def main():
             gv.reader = csv.reader(csvfile)
             line  = next(gv.reader,None)
             while not line == None:
-                # is csv line a recognized header line?
+                # if csv line a recognized header line
+                # call the function that processes that csv file
                 func = line_func(line)
                 if func:
                     line = func(line)
                 else:
                     line  = next(gv.reader,None)
 
+    # store any data loaded by stock and transaction loading modules
     ldstk.save_data()
     ldtxn.save_data() 
 

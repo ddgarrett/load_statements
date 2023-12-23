@@ -61,6 +61,10 @@ def save_txn_data(fn="_data/transactions.csv"):
             w.writerow(row._data)
 
 def init():
+    """
+        Add to a function lookup dictionary which
+        translates a header line into a load function.
+    """
 
     # below are headers that identify transactions to be loaded
     ld_wells = "Date,Amount,na1,na2,Description"

@@ -80,6 +80,11 @@ def save_stock_data(fn="_data/stock_summary.csv"):
             w.writerow(util.concat_values(row,stock_cols))
 
 def init():
+    """
+        Add to a function lookup dictionary which
+        translates a header line into a load function.
+    """
+        
     # below are headers that identify accounts and stocks to be loaded
     ld_stk_account = "Account Type,Account,Beginning mkt Value,Change in Investment"
     ld_stock   = "Symbol/CUSIP,Description,Quantity,Price"
