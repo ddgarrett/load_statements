@@ -14,3 +14,8 @@ is **not** backed up due to its sensitive nature such as account numbers.
 
 After processing user should manually create and move all .csv files to a subdirectory
 for that month or quarter.
+
+Fidelity Statement data is used by Google Sheet "Finances Summary". 
+
+Monthly transaction data is used in Google Sheets "Monthly Expenses YYYY", 
+where "YYYY" is the year for the monthly transaction data.
