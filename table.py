@@ -4,6 +4,7 @@
 '''
 from __future__ import annotations
 from typing import Iterator
+from operator import itemgetter
 
 class Table:
     '''
@@ -12,6 +13,11 @@ class Table:
         Data store is assumed to be tabular with fixed columns
         and each row containing all of the columns.
     '''
+
+    @staticmethod
+    def new_table(col_names:list[str]):
+        col_dict = {c:Column(i,c) for i,c in enumerate(col_names)}
+        return Table(col_dict,[])
 
     def __init__(self,
                  cols:dict[str,Column] = {},
@@ -50,6 +56,26 @@ class Table:
         row = self._create_row(self._cols,data=None)  # Row(self,self._cols,data=None)
         self._rows.append(row)
         return row
+    
+    def append_row_fast(self,row:list[str]):
+        '''
+            Appends a new row from a list of strings assuming that:
+            1. all field types are correct
+            2. any missing fields at the end of the row should be defaulted to a blank string
+        '''
+        # make sure row is of proper length
+        while len(row) > len(self._cols):
+            row.append("")
+
+        new_row = self._create_row(self._cols,data=row)
+        self._rows.append(new_row)
+        return new_row
+        
+    def sort(self,cols:list[str]):
+        '''
+            sort by specified list of columns
+        '''
+        self._rows =  sorted(self._rows,key=itemgetter(*cols))
     
     def _create_row(self,cols,data=None):
         ''' Create a row without appending it. 
