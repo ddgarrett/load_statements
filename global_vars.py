@@ -14,4 +14,4 @@ transactions   = Table.new_table(txn_col)
 
 reader = None  # CSV Reader
 
-func_lookup:dict[list[str],callable] = None
+func_lookup:dict[list[str],callable] = {}
