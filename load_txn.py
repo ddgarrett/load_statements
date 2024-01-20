@@ -6,6 +6,12 @@ import csv
 
 import global_vars as gv
 import util
+from table import Table
+
+
+# init output table
+txn_col = ["Date","Description","Amount","Account Name","Labels"]
+transactions   = Table.new_table(txn_col)
 
 def load_wells_txn(hdr:list[str]):
     """
@@ -15,7 +21,7 @@ def load_wells_txn(hdr:list[str]):
     # read to end of file
     data = next(gv.reader,None)
     while data != None and len(data) > 4:
-        gv.transactions.append_row_fast([data[0],data[4],util.negate_amount(data[1]),"wellsfargo","fixed"])
+        transactions.append_row_fast([data[0],data[4],util.negate_amount(data[1]),"wellsfargo","fixed"])
         data = next(gv.reader,None)
 
 def load_fidel_txn(hdr:list[str]):
@@ -25,7 +31,10 @@ def load_fidel_txn(hdr:list[str]):
     data = next(gv.reader,None)
     while data != None and len(data) > 4:
         # print(data)
-        gv.transactions.append_row_fast([data[0],data[2],util.negate_amount(data[4]),"fidelity","fixed"])
+        # reformat date from yyyy-mm-dd to mm/dd/yyyy
+        date = data[0]
+        date_fmt = f'{date[5:7]}/{date[8:10]}/{date[0:4]}'
+        transactions.append_row_fast([date_fmt,data[2],util.negate_amount(data[4]),"fidelity","fixed"])
         data = next(gv.reader,None)
 
 def load_chase_txn(hdr:list[str]):
@@ -35,7 +44,7 @@ def load_chase_txn(hdr:list[str]):
     data = next(gv.reader,None)
     while data != None and len(data) > 5:
         # print(data)
-        gv.transactions.append_row_fast([data[0],data[2],util.negate_amount(data[5]),"chase","fixed"])
+        transactions.append_row_fast([data[0],data[2],util.negate_amount(data[5]),"chase","fixed"])
         data = next(gv.reader,None)
 
 def load_amex_txn(hdr:list[str]):
@@ -45,7 +54,7 @@ def load_amex_txn(hdr:list[str]):
     data = next(gv.reader,None)
     while data != None:
         # print(data)
-        gv.transactions.append_row_fast([data[0],data[1],data[2],"amex","fixed"])
+        transactions.append_row_fast([data[0],data[1],data[2],"amex","fixed"])
         data = next(gv.reader,None)
 
 
@@ -56,8 +65,8 @@ def save_txn_data(fn="_data/transactions.csv"):
     with open(fn,'w',newline='') as cvsfile:
         w = csv.writer(cvsfile)
 
-        w.writerow(gv.txn_col)
-        for row in gv.transactions:
+        w.writerow(txn_col)
+        for row in transactions:
             w.writerow(row._data)
 
 def init():
@@ -66,6 +75,7 @@ def init():
         translates a header line into a load function.
     """
 
+    # Initialize function lookup dictionary
     # below are headers that identify transactions to be loaded
     ld_wells = "Date,Amount,na1,na2,Description"
     ld_fidel = "Date,Transaction,Name,Memo,Amount"
@@ -86,5 +96,6 @@ def save_data():
         If any transaction data has been loaded,
         save it to a csv file.
     """
-    if len(gv.transactions.rows()) > 0:
+    if len(transactions.rows()) > 0:
+        transactions.sort(["Date","Description","Amount"])
         save_txn_data()
