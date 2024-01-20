@@ -17,6 +17,7 @@ import global_vars as gv
 
 import load_stocks as ldstk
 import load_txn    as ldtxn
+import load_activity as ldact
 
 def test_line(tst:str,line:list[str]) -> bool:
     '''
@@ -42,6 +43,7 @@ def main():
     # initialize stock and transaction loading modules
     ldstk.init()
     ldtxn.init()
+    ldact.init()
 
     mypath = '_data'
     onlyfiles = [join(mypath,f) for f in listdir(mypath) if isfile(join(mypath, f))]
@@ -62,6 +64,7 @@ def main():
     # store any data loaded by stock and transaction loading modules
     ldstk.save_data()
     ldtxn.save_data() 
+    ldact.save_data() 
 
 if __name__ == '__main__':
     main()
