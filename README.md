@@ -1,18 +1,16 @@
-# Load Fidelity CSV Statements
+# Load Fidelity, Chase, Wells Fargo and American Express CSV Statements
 
-Parse and consolidate various downloads created by Fidelity, Chase, Wells Fargo and
-American Express.
+Parse and consolidate CSV download files created by Fidelity, Chase, Wells Fargo and
+American Express for tracking monthly expenses. Currently the Wells Fargo CSV file requires 
+the addition of the following header line:  "Date","Amount","na1","na2","Description"
 
-Parse Quarterly and Monthly CSV Files created by Fidelity Statements and generate a summary.csv
-with a summary by account showing stock value.
-
-Parse monthly transaction downloads from Fidelity Visa, Chase, Wells Fargo and 
-American express and create a consolidated transaction.csv file.
+Also parses Quarterly and Monthly CSV Files created by Fidelity Statements and generate a
+summary CSV file showing stock value by account.
 
 When run, processes all of the data in _data directory. Note that the _data directory
 is **not** backed up due to its sensitive nature such as account numbers.
 
-After processing user should manually create a subdirectory in _data and move all .csv files to a that subdirectory.
+After processing data, user should manually create a subdirectory in _data, such as "yyyy-mm", and move all CSV files to a that subdirectory.
 
 Fidelity Statement data is used by Google Sheet "Finances Summary".
 
