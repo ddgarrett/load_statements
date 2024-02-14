@@ -7,6 +7,8 @@ the addition of the following header line:  "Date","Amount","na1","na2","Descrip
 Also parses Quarterly and Monthly CSV Files created by Fidelity Statements and generate a
 summary CSV file showing stock value by account.
 
+Also parses Fidelity activity and orders (Account_History) downloaded from the Fidelity Activity and Orders tab to produce a fidelity_activity_orders.csv file.
+
 When run, processes all of the data in _data directory. Note that the _data directory
 is **not** backed up due to its sensitive nature such as account numbers.
 
@@ -17,7 +19,9 @@ Fidelity Statement data is used by Google Sheet "Finances Summary".
 Monthly transaction data is used in Google Sheets "Monthly Expenses YYYY", 
 where "YYYY" is the year for the monthly transaction data.
 
-Both of the above processes help support replacements for Mint's transaction extract and
+Fidelity Activity and Orders data is not currently used by any spreadsheets.
+
+The first two above processes help support replacements for Mint's transaction extract and
 net worth functions. Mint is no longer available and CreditKarma does little more than show you 
 your credit status and attempt to get you to sign up for credit cards.
 
