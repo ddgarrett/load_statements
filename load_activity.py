@@ -43,7 +43,7 @@ def init():
 
     # Initialize function lookup dictionary
     # below are headers that identify transactions to be loaded
-    ld_activity = "Run Date,Account,Action,Symbol,Security Description,Security Type,Exchange Quantity,Exchange Currency,Quantity,Currency,Price,Exchange Rate,Commission,Fees,Accrued Interest,Amount,Settlement Date"
+    ld_activity = "Run Date,Account,Action,Symbol,Description,Type,Exchange Quantity,Exchange Currency,Quantity,Currency,Price,Exchange Rate,Commission,Fees,Accrued Interest,Amount,Settlement Date"
 
     my_lookup = {
         ld_activity: load_fidelity_activity
