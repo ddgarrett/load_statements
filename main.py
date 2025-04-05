@@ -3,7 +3,7 @@
 
     Read a CSV line by line, splitting it by commas.
 
-    Call stock or transaction loading functions
+    Call stock, transaction or activity loading functions
     based on unique headers for downloaded csv files.
 
 '''

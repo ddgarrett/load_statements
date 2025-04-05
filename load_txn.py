@@ -1,6 +1,9 @@
 '''
     Load detailed transaction history downloaded from 
     Wells Fargo, Chase, Fidelity and American Express.
+
+    Generate a file which combines the transactions
+    into a single CSV.
 '''
 import csv
 
