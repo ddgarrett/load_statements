@@ -15,9 +15,10 @@ from os.path import isfile, join
 
 import global_vars as gv
 
-import load_stocks as ldstk
-import load_txn    as ldtxn
+import load_stocks   as ldstk
+import load_txn      as ldtxn
 import load_activity as ldact
+import load_curr     as ldcur
 
 def test_line(tst:str,line:list[str]) -> bool:
     '''
@@ -44,12 +45,13 @@ def main():
     ldstk.init()
     ldtxn.init()
     ldact.init()
+    ldcur.init()
 
     mypath = '_data'
     onlyfiles = [join(mypath,f) for f in listdir(mypath) if isfile(join(mypath, f))]
     
     for fn in onlyfiles:
-        with open(fn, newline='') as csvfile:
+        with open(fn, newline='', encoding='utf-8-sig') as csvfile:
             gv.reader = csv.reader(csvfile)
             line  = next(gv.reader,None)
             while not line == None:
@@ -59,12 +61,14 @@ def main():
                 if func:
                     line = func(line)
                 else:
+                    # print(f'unrecognized line: {line}')
                     line  = next(gv.reader,None)
 
     # store any data loaded by stock and transaction loading modules
     ldstk.save_data()
     ldtxn.save_data() 
     ldact.save_data() 
+    ldcur.save_data()
 
 if __name__ == '__main__':
     main()
