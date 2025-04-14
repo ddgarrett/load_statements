@@ -9,6 +9,8 @@ from table import Table
 accounts:Table = None   # Table defining accounts
 stocks:Table   = None   # Table defining stocks within an account
 
+stocks_curr:Table = None # Table defining stocks for current day
+
 reader = None  # CSV Reader
 
 # lookup function to call 
