@@ -41,7 +41,7 @@ def save_stock_data(fn="_data/stock_curr_summary.csv"):
     """
         Save Stock Data to CSV
     """
-    stock_cols = ['Account Number','Account Name','Symbol','Current Value']
+    stock_cols = ['Account Number','Description','Symbol','Current Value']
     with open(fn,'w',newline='') as cvsfile:
         w = csv.writer(cvsfile)
 
@@ -74,4 +74,5 @@ def save_data():
         save it to a csv file.
     '''
     if gv.stocks_curr != None:
+        gv.stocks_curr.sort(['Account Name','Symbol'])
         save_stock_data() 
