@@ -9,6 +9,9 @@ summary CSV file showing stock value by account.
 
 Also parses Fidelity activity and orders (Account_History) downloaded from the Fidelity Activity and Orders tab to produce a fidelity_activity_orders.csv file.
 
+Also parses CSV file generated from Fidelity Positions tab
+to produce a stock_curr_summary.csv file with current day stock info.
+
 When run, processes all of the data in _data directory. Note that the _data directory
 is **not** backed up due to its sensitive nature such as account numbers.
 
