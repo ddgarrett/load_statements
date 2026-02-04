@@ -51,6 +51,10 @@ def main():
     onlyfiles = [join(mypath,f) for f in listdir(mypath) if isfile(join(mypath, f))]
     
     for fn in onlyfiles:
+        if not fn.endswith('.csv'):
+            continue   
+        
+        print(f'Processing file: {fn}' )
         with open(fn, newline='', encoding='utf-8-sig') as csvfile:
             gv.reader = csv.reader(csvfile)
             line  = next(gv.reader,None)
