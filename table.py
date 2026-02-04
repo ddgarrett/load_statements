@@ -64,7 +64,8 @@ class Table:
             2. any missing fields at the end of the row should be defaulted to a blank string
         '''
         # make sure row is of proper length
-        while len(row) > len(self._cols):
+        # print(len(row),len(self._cols))
+        while len(row) < len(self._cols):
             row.append("")
 
         new_row = self._create_row(self._cols,data=row)
