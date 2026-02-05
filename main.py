@@ -51,7 +51,7 @@ def main():
     onlyfiles = [join(mypath,f) for f in listdir(mypath) if isfile(join(mypath, f))]
     
     for fn in onlyfiles:
-        if not fn.endswith('.csv'):
+        if not fn.lower().endswith('.csv'):
             continue   
         
         print(f'Processing file: {fn}' )
