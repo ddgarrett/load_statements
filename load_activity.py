@@ -20,7 +20,7 @@ def load_fidelity_activity(hdr:list[str]):
     # read to end of file
     data = next(gv.reader,None)
     while data != None and len(data) > 14:
-        transactions.append_row_fast([data[0],data[1],data[4],data[3],data[5],data[9],data[11],data[16]])
+        transactions.append_row_fast([data[0],data[1],data[4],data[3],data[5],data[11],data[10],data[16]])
         data = next(gv.reader,None)
 
 
@@ -43,7 +43,7 @@ def init():
 
     # Initialize function lookup dictionary
     # below are headers that identify transactions to be loaded
-    ld_activity = "Run Date,Account,Account Number,Action,Symbol,Description,Type,Exchange Quantity,Exchange Currency,Quantity,Currency,Price,Exchange Rate,Commission,Fees,Accrued Interest,Amount,Settlement Date"
+    ld_activity = "Run Date,Account,Account Number,Action,Symbol,Description,Type,Exchange Quantity,Exchange Currency,Currency,Price,Quantity,Exchange Rate,Commission,Fees,Accrued Interest,Amount,Settlement Date"
     
     my_lookup = {
         ld_activity: load_fidelity_activity
