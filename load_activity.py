@@ -4,7 +4,7 @@
 import csv
 
 import global_vars as gv
-import util
+import util as ut
 from table import Table
 
 
@@ -17,10 +17,19 @@ def load_fidelity_activity(hdr:list[str]):
     """
     print("*********** loading fidelity activity and orders")
 
+    print("hdr:", hdr)
     # read to end of file
     data = next(gv.reader,None)
     while data != None and len(data) > 14:
-        transactions.append_row_fast([data[0],data[1],data[4],data[3],data[5],data[11],data[10],data[16]])
+        # transactions.append_row_fast([data[0],data[1],data[4],data[3],data[5],data[11],data[10],data[16]])
+        transactions.append_row_fast([ut.get_data("Run Date",hdr,data),
+                                      ut.get_data("Account",hdr,data) ,
+                                      ut.get_data("Symbol",hdr,data),
+                                      ut.get_data("Action",hdr,data),
+                                      ut.get_data("Description",hdr,data),
+                                      ut.get_data("Quantity",hdr,data),
+                                      ut.get_data("Price",hdr,data),
+                                      ut.get_data("Amount",hdr,data)])
         data = next(gv.reader,None)
 
 

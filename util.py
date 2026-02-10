@@ -26,3 +26,16 @@ def concat_values(row,cols):
         data.append(row[c])
 
     return data
+
+def get_data(name:str,hdr:list[str], data:list[str]) -> str:
+    '''
+        Given a name, a list of header names, and a list of data values,
+        return the string value of the data that corresponds to the header name. 
+        If the name is not
+        found, return "not found".
+    '''
+    for i in range(len(hdr)-1):
+        if hdr[i] == name:
+            return data[i]
+
+    return "not found"
