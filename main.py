@@ -12,6 +12,7 @@ from __future__ import annotations
 import csv
 from os import listdir
 from os.path import isfile, join
+from pathlib import Path
 
 import global_vars as gv
 
@@ -56,6 +57,7 @@ def main():
         
         print(f'Processing file: {fn}' )
         with open(fn, newline='', encoding='utf-8-sig') as csvfile:
+            gv.fileName = Path(fn).name
             gv.reader = csv.reader(csvfile)
             line  = next(gv.reader,None)
             while not line == None:

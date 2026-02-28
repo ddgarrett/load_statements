@@ -17,14 +17,17 @@ txn_col = ["Date","Description","Amount","Account Name","Labels"]
 transactions   = Table.new_table(txn_col)
 
 def load_wells_txn(hdr:list[str]):
-    """
-    """
-    print("*********** loading wells fargo")
+
+    account = "wellsfargo"
+    if gv.fileName.startswith("CreditCard"):
+        account = "wfcc"
+
+    print(f"*********** loading {account}")
 
     # read to end of file
     data = next(gv.reader,None)
     while data != None and len(data) > 4:
-        transactions.append_row_fast([data[0],data[4],util.negate_amount(data[1]),"wellsfargo","fixed"])
+        transactions.append_row_fast([data[0],data[4],util.negate_amount(data[1]),account,"fixed"])
         data = next(gv.reader,None)
 
 def load_fidel_txn(hdr:list[str]):
