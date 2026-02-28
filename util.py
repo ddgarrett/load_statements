@@ -34,8 +34,8 @@ def get_data(name:str,hdr:list[str], data:list[str]) -> str:
         If the name is not
         found, return "not found".
     '''
-    for i in range(len(hdr)-1):
-        if hdr[i] == name:
+    for i in range(len(hdr)):
+        if hdr[i] == name and i < len(data):
             return data[i]
 
     return "not found"

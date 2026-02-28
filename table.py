@@ -20,11 +20,11 @@ class Table:
         return Table(col_dict,[])
 
     def __init__(self,
-                 cols:dict[str,Column] = {},
-                 rows:list[Row] = []) -> None:
-        self._cols = cols   # dictionary of column name to column object
-        self._rows = rows   # list of rows
-        self._original_rows = rows  # unfiltered version of rows
+                 cols: dict[str, Column] | None = None,
+                 rows: list[Row] | None = None) -> None:
+        self._cols = cols if cols is not None else {}
+        self._rows = rows if rows is not None else []
+        self._original_rows = self._rows  # unfiltered version of rows
         self._filter = None
 
     def __iter__(self) -> Iterator[Row]:
@@ -39,15 +39,15 @@ class Table:
         ''' return the underlying rows list '''
         return self._rows
     
-    def filter_rows(self,filter=None):
+    def filter_rows(self, filter=None):
         self._filter = filter
-        if filter == None:
+        if filter is None:
             self._rows = self._original_rows
         else:
             self._rows = filter.filter(self._original_rows)
 
     def refilter(self):
-        self.filter(self._filter)
+        self.filter_rows(self._filter)
 
     def new_row(self) -> Row:
         ''' append a new row with default values to the end of self._rows
@@ -100,7 +100,7 @@ class Row:
         # If no data passed, initialize a new row
         # That is needed if builtin python sort is used.
         # Will also make selects of non-equal value better as well.
-        if data == None:
+        if data is None:
             data = [c._default_value() for c in cols.values()]
             
         # CONSIDER: use Column to convert string to native object?
@@ -129,7 +129,7 @@ class Row:
         
     def get(self,col_name:str) -> any:
         col = self._cols.get(col_name)
-        if col == None:
+        if col is None:
             return None
         return col._get(self._data)
     
@@ -137,7 +137,7 @@ class Row:
               support rollback and "updated" flag?  '''
     def set(self,col_name:str,value:any,as_str:bool=True):
         col = self._cols.get(col_name)
-        if col != None:
+        if col is not None:
             col._set(self._data,value,as_str)
 
     def get_int(self,col_name:str) -> int:

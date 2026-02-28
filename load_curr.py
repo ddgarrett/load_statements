@@ -23,7 +23,7 @@ def load_stocks(reader, fileName: str, hdr: list[str]):
         load the stock data.
     '''
     # if stock table doesn't exist, create it
-    if gv.stocks_curr == None:
+    if gv.stocks_curr is None:
         gv.stocks_curr = Table.new_table(hdr)
 
     while True:
@@ -73,6 +73,6 @@ def save_data():
         If any stock data has been loaded,
         save it to a csv file.
     '''
-    if gv.stocks_curr != None:
+    if gv.stocks_curr is not None:
         gv.stocks_curr.sort(['Account Name','Symbol'])
         save_stock_data() 

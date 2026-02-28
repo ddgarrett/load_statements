@@ -14,7 +14,7 @@ def load_account(reader, fileName: str, hdr: list[str]):
         load account data from CSV.
     '''
     # If account table is None, create it using hdr
-    if gv.accounts == None:
+    if gv.accounts is None:
         gv.accounts = Table.new_table(hdr)
 
     line = next(reader, None)
@@ -30,7 +30,7 @@ def load_stocks(reader, fileName: str, hdr: list[str]):
         load the stock data.
     '''
     # if stock table doesn't exist, create it
-    if gv.stocks == None:
+    if gv.stocks is None:
         hdr = list(hdr)
         hdr.extend(['Account','Type'])
         gv.stocks = Table.new_table(hdr)
@@ -47,7 +47,7 @@ def load_stocks(reader, fileName: str, hdr: list[str]):
 
         # read stocks until 'Subtotal of...' read
         line = next(reader, None)
-        while line is not None and not line[0].startswith('Subtotal of'):
+        while line is not None and len(line) > 0 and not line[0].startswith('Subtotal of'):
             line.extend([account,type])
             gv.stocks.append_row_fast(line)
             # print('...',account,line[0:3])
@@ -102,7 +102,7 @@ def save_data():
         If any stock data has been loaded,
         save it to a csv file.
     '''
-    if gv.accounts != None:
+    if gv.accounts is not None:
         gv.accounts.sort(['Account'])
         gv.stocks.sort(['Account','Symbol/CUSIP'])
         save_stock_data() 
