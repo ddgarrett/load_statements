@@ -17,7 +17,7 @@ import global_vars as gv
 import util
 from table import Table
 
-def load_stocks(hdr:list[str]):
+def load_stocks(reader, fileName: str, hdr: list[str]):
     '''
         Given a line that represents the headers for stock data,
         load the stock data.
@@ -28,11 +28,11 @@ def load_stocks(hdr:list[str]):
 
     while True:
         # read stocks until blank line read
-        line = next(gv.reader,None)
-        while len(line) > 0:
+        line = next(reader, None)
+        while line is not None and len(line) > 0:
             gv.stocks_curr.append_row_fast(line)
             # print('...',account,line[0:3])
-            line = next(gv.reader,None)
+            line = next(reader, None)
 
         # return nothing - ends read
         return None

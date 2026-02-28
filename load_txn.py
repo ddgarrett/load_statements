@@ -16,52 +16,51 @@ from table import Table
 txn_col = ["Date","Description","Amount","Account Name","Labels"]
 transactions   = Table.new_table(txn_col)
 
-def load_wells_txn(hdr:list[str]):
-
+def load_wells_txn(reader, fileName: str, hdr: list[str]):
     account = "wellsfargo"
-    if gv.fileName.startswith("CreditCard"):
+    if fileName.startswith("CreditCard"):
         account = "wfcc"
 
     print(f"*********** loading {account}")
 
     # read to end of file
-    data = next(gv.reader,None)
-    while data != None and len(data) > 4:
+    data = next(reader, None)
+    while data is not None and len(data) > 4:
         transactions.append_row_fast([data[0],data[4],util.negate_amount(data[1]),account,"fixed"])
-        data = next(gv.reader,None)
+        data = next(reader, None)
 
-def load_fidel_txn(hdr:list[str]):
+def load_fidel_txn(reader, fileName: str, hdr: list[str]):
     print("*********** loading fidelity")
 
     # read to end of file
-    data = next(gv.reader,None)
-    while data != None and len(data) > 4:
+    data = next(reader, None)
+    while data is not None and len(data) > 4:
         # print(data)
         # reformat date from yyyy-mm-dd to mm/dd/yyyy
         date = data[0]
         date_fmt = f'{date[5:7]}/{date[8:10]}/{date[0:4]}'
         transactions.append_row_fast([date_fmt,data[2],util.negate_amount(data[4]),"fidelity","fixed"])
-        data = next(gv.reader,None)
+        data = next(reader, None)
 
-def load_chase_txn(hdr:list[str]):
+def load_chase_txn(reader, fileName: str, hdr: list[str]):
     print("*********** loading chase")
 
     # read to end of file
-    data = next(gv.reader,None)
-    while data != None and len(data) > 5:
+    data = next(reader, None)
+    while data is not None and len(data) > 5:
         # print(data)
         transactions.append_row_fast([data[0],data[2],util.negate_amount(data[5]),"chase","fixed"])
-        data = next(gv.reader,None)
+        data = next(reader, None)
 
-def load_amex_txn(hdr:list[str]):
+def load_amex_txn(reader, fileName: str, hdr: list[str]):
     print("*********** loading amex")
 
     # read to end of file
-    data = next(gv.reader,None)
-    while data != None:
+    data = next(reader, None)
+    while data is not None:
         # print(data)
         transactions.append_row_fast([data[0],data[1],data[2],"amex","fixed"])
-        data = next(gv.reader,None)
+        data = next(reader, None)
 
 
 def save_txn_data(fn="_data/transactions.csv"):

@@ -12,15 +12,15 @@ from table import Table
 txn_col = ["Date", "Account", "Symbol", "Action", "Security Descr", "Quantity", "Price", "Amount"]
 transactions   = Table.new_table(txn_col)
 
-def load_fidelity_activity(hdr:list[str]):
+def load_fidelity_activity(reader, fileName: str, hdr: list[str]):
     """
     """
     print("*********** loading fidelity activity and orders")
 
     print("hdr:", hdr)
     # read to end of file
-    data = next(gv.reader,None)
-    while data != None and len(data) > 14:
+    data = next(reader, None)
+    while data is not None and len(data) > 14:
         # transactions.append_row_fast([data[0],data[1],data[4],data[3],data[5],data[11],data[10],data[16]])
         transactions.append_row_fast([ut.get_data("Run Date",hdr,data),
                                       ut.get_data("Account",hdr,data) ,
@@ -30,7 +30,7 @@ def load_fidelity_activity(hdr:list[str]):
                                       ut.get_data("Quantity",hdr,data),
                                       ut.get_data("Price",hdr,data),
                                       ut.get_data("Amount",hdr,data)])
-        data = next(gv.reader,None)
+        data = next(reader, None)
 
 
 def save_txn_data(fn="_data/fidelity_activity_orders.csv"):

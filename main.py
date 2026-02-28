@@ -53,22 +53,25 @@ def main():
     
     for fn in onlyfiles:
         if not fn.lower().endswith('.csv'):
-            continue   
-        
+            continue
+        # skip reference and output files (not input CSVs)
+        name = Path(fn).name
+        if name == 'before_transactions.csv' or name == 'transactions.csv':
+            continue
+
         print(f'Processing file: {fn}' )
         with open(fn, newline='', encoding='utf-8-sig') as csvfile:
-            gv.fileName = Path(fn).name
-            gv.reader = csv.reader(csvfile)
-            line  = next(gv.reader,None)
-            while not line == None:
+            reader = csv.reader(csvfile)
+            fileName = Path(fn).name
+            line = next(reader, None)
+            while line is not None:
                 # if csv line a recognized header line
                 # call the function that processes that csv file
                 func = line_func(line)
                 if func:
-                    line = func(line)
+                    line = func(reader, fileName, line)
                 else:
-                    # print(f'unrecognized line: {line}')
-                    line  = next(gv.reader,None)
+                    line = next(reader, None)
 
     # store any data loaded by stock and transaction loading modules
     ldstk.save_data()

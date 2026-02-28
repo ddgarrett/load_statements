@@ -8,7 +8,7 @@ import global_vars as gv
 import util
 from table import Table
 
-def load_account(hdr:list[str]):
+def load_account(reader, fileName: str, hdr: list[str]):
     '''
         Given a line that represents the headers for the account data
         load account data from CSV.
@@ -17,46 +17,47 @@ def load_account(hdr:list[str]):
     if gv.accounts == None:
         gv.accounts = Table.new_table(hdr)
 
-    line  = next(gv.reader,None)
-    while len(line) == len(hdr):
+    line = next(reader, None)
+    while line is not None and len(line) == len(hdr):
         gv.accounts.append_row_fast(line)
-        line  = next(gv.reader,None)
+        line = next(reader, None)
 
     return line
 
-def load_stocks(hdr:list[str]):
+def load_stocks(reader, fileName: str, hdr: list[str]):
     '''
         Given a line that represents the headers for stock data,
         load the stock data.
     '''
     # if stock table doesn't exist, create it
     if gv.stocks == None:
+        hdr = list(hdr)
         hdr.extend(['Account','Type'])
         gv.stocks = Table.new_table(hdr)
 
     # skip two lines
-    next(gv.reader)
-    next(gv.reader)
+    next(reader)
+    next(reader)
 
     while True:
         # read account number and type
-        account = next(gv.reader)[0].strip()
-        type = next(gv.reader)[0]
+        account = next(reader)[0].strip()
+        type = next(reader)[0]
         # print('...',account,type[0])
 
         # read stocks until 'Subtotal of...' read
-        line = next(gv.reader,None)
-        while not line[0].startswith('Subtotal of'):
-            line.extend([account,type]) 
+        line = next(reader, None)
+        while line is not None and not line[0].startswith('Subtotal of'):
+            line.extend([account,type])
             gv.stocks.append_row_fast(line)
             # print('...',account,line[0:3])
-            line = next(gv.reader,None)
+            line = next(reader, None)
 
         # skip one line
-        line = next(gv.reader,None)
+        line = next(reader, None)
 
         # if no next line, return
-        if line == None:
+        if line is None:
             return None
 
 def save_stock_data(fn="_data/stock_summary.csv"):
