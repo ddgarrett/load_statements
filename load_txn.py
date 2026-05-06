@@ -18,7 +18,7 @@ transactions   = Table.new_table(txn_col)
 
 def load_wells_txn(reader, fileName: str, hdr: list[str]):
     account = "wellsfargo"
-    if fileName.startswith("CreditCard"):
+    if "CreditCard" in fileName:
         account = "wfcc"
 
     print(f"*********** loading {account}")
@@ -26,7 +26,7 @@ def load_wells_txn(reader, fileName: str, hdr: list[str]):
     # read to end of file
     data = next(reader, None)
     while data is not None and len(data) > 4:
-        transactions.append_row_fast([data[0],data[4],util.negate_amount(data[1]),account,"fixed"])
+        transactions.append_row_fast([data[0],data[1],util.negate_amount(data[2]),account,"fixed"])
         data = next(reader, None)
 
 def load_fidel_txn(reader, fileName: str, hdr: list[str]):
@@ -82,7 +82,7 @@ def init():
 
     # Initialize function lookup dictionary
     # below are headers that identify transactions to be loaded
-    ld_wells = "Date,Amount,na1,na2,Description"
+    ld_wells = "DATE,DESCRIPTION,AMOUNT,CHECK #,STATUS"
     ld_fidel = "Date,Transaction,Name,Memo,Amount"
     ld_chase = "Transaction Date,Post Date,Description,Category,Type,Amount,Memo"
     ld_amex  = "Date,Description,Amount"

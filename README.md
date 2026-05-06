@@ -1,8 +1,8 @@
 # Load Fidelity, Chase, Wells Fargo and American Express CSV Statements
 
 Parse and consolidate CSV download files created by Fidelity, Chase, Wells Fargo and
-American Express for tracking monthly expenses. Currently the Wells Fargo CSV file requires 
-the addition of the following header line:  "Date","Amount","na1","na2","Description"
+American Express for tracking monthly expenses. For Wells Fargo downloads files whose name contains
+`CreditCard` are tagged as the credit card account (`wfcc`).
 
 Also parses Quarterly and Monthly CSV Files created by Fidelity Statements and generate a
 summary CSV file showing stock value by account.
